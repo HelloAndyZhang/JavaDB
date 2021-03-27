@@ -1,3 +1,4 @@
+import Interpreter.Input;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -8,10 +9,12 @@ import java.net.Socket;
 public class DBServer {
 
     public static void main(String[] args) {
+        Input input = new Input();
+        input.get("CREATE DATABASE markbook;");
         String envPort = System.getenv("javaDB.server.port");
         envPort = (envPort == null || envPort.isBlank()) ? "5432" : envPort;
-        //启动服务
-        new DBServer(Integer.valueOf(envPort));
+        // 启动服务
+        // new DBServer(Integer.valueOf(envPort));
     }
 
     public DBServer(Integer serverPort) {
@@ -20,15 +23,16 @@ public class DBServer {
         try {
             serverSocket = new ServerSocket(serverPort);
             System.out.println("===========================DB start success==========================");
-            while (true){
+            while (true) {
                 acceptClientMessage(serverSocket);
             }
 
         } catch (IOException e) {
-            if (serverSocket != null){
+            if (serverSocket != null) {
                 try {
                     serverSocket.close();
-                } catch (IOException ioException) {}
+                } catch (IOException ioException) {
+                }
             }
             System.out.println("!!!DB error!!!, msg: " + e.getMessage());
             e.printStackTrace();
@@ -39,16 +43,15 @@ public class DBServer {
         Socket socket = serverSocket.accept();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        while(true) {
-            //用户输入命令
+        while (true) {
+            // 用户输入命令
             String messageComm = bufferedReader.readLine();
-
-            //处理命令
-
-
-            //执行输入得到结果进行输出
+            // 处理命令
+            Input input = new Input();
+            input.get(messageComm);
+            // 执行输入得到结果进行输出
             String outMsg = "";
-            bufferedWriter.write(outMsg +"\n");
+            bufferedWriter.write(outMsg + "\n");
             bufferedWriter.flush();
         }
     }
