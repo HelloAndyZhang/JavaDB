@@ -20,10 +20,10 @@ public class Use {
         if (b) {
             SQLConstant.setNowPath(dbName);
             System.out.println("Database changed");
-            Input.get();
+            // Input.get();
         } else {
             System.out.println("ERROR: 数据库不存在");
-            Input.get();
+            // Input.get();
         }
     }
 }

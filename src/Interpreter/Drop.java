@@ -68,7 +68,7 @@ public class Drop {
             System.out.println("ERROR: 该数据库不存在");
         }
 
-        Input.get();
+        // Input.get();
     }
 
     /**
@@ -144,6 +144,6 @@ public class Drop {
             System.out.println("ERROR: 该数据库不存在");
         }
 
-        Input.get();
+        // Input.get();
     }
 }

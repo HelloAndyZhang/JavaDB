@@ -62,7 +62,7 @@ public class Select {
             System.out.println("ERROR: 目前的select命令不支持这种方式的查询");
         }
 
-        Input.get();
+        // Input.get();
 
         // for(String s:list){
         // System.out.println(s);

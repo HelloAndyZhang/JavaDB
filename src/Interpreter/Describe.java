@@ -45,7 +45,7 @@ public class Describe {
 
         System.out.println(TableGenerator.generateTable(list4, lists));
 
-        Input.get();
+        // Input.get();
     }
 
     /**

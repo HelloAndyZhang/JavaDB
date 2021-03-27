@@ -66,7 +66,7 @@ public class SqlAnalysis {
             break;
         default:
             System.out.println("输入的命令无法识别,可以输入help查看目前支持的sql语句");
-            Input.get();
+            // Input.get();
             break;
         }
         // System.out.println(start);

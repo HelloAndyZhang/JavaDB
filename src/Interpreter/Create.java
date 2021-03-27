@@ -42,7 +42,7 @@ public class Create {
                     // System.out.println("Query OK");
                 } else {
                     System.out.println("ERROR: 语句有错误");
-                    Input.get();
+                    // Input.get();
                 }
             }
         }
@@ -58,10 +58,10 @@ public class Create {
         if (!file.exists()) {
             file.mkdir();
             System.out.println("Query OK");
-            Input.get();
+            // Input.get();
         } else {
             System.out.println("ERROR: database exists");
-            Input.get();
+            // Input.get();
         }
     }
 
@@ -79,12 +79,16 @@ public class Create {
         int index = sql.indexOf("(");
         if (index != -1) {
             // System.out.println(index);
-            tName = sql.substring(13, index) + ".txt";
+            tName = sql.substring(13, index).trim() + ".txt";
+            System.out.println(tName);
             tName.trim();
-            // System.out.println("创建表格方法已经执行");
+            System.out.println("创建表格方法已经执行");
 
             // 创建表
             File table = new File(tablePath, tName);
+
+            System.out.println(tName);
+            System.out.println(table.getName());
             if (!table.exists()) {
 
                 // 创建表,以一个文本文件表示一个表
@@ -123,9 +127,12 @@ public class Create {
                 // 第一行存取列名,第二行存取类型,第三行存取剩余的说明信息
                 for (String s2 : strings) {
                     String s3 = s2.trim();
+                    System.out.println("xx" + s3);
                     String[] strings1 = s3.split(" ");
+                    if (strings1.length > 1) {
+                        list2.add(strings1[1]);
+                    }
                     list1.add(strings1[0]);
-                    list2.add(strings1[1]);
                     for (int i = 2; i < strings1.length; i++) {
                         // list3.add(strings1[i]);
                         if (strings1[i].equals("not") && strings1[i + 1].equals("null")) {
@@ -165,7 +172,7 @@ public class Create {
             // sdnu.machi.Input.get();
         }
 
-        Input.get();
+        // Input.get();
     }
 
     /**

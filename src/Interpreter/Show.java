@@ -28,7 +28,7 @@ public class Show {
                 list.add(ls);
             }
             System.out.println(TableGenerator.generateTable(db, list));
-            Input.get();
+            // Input.get();
         }
 
         // 列出所有该数据库下所有的表格
@@ -56,7 +56,7 @@ public class Show {
                 }
 
                 System.out.println(TableGenerator.generateTable(list, tList));
-                Input.get();
+                // Input.get();
             }
         }
     }

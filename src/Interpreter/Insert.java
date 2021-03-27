@@ -23,7 +23,10 @@ public class Insert {
         // 判断是否有该表
         String path = SQLConstant.getNowPath();
         List<String> list = Utils.getAllTables(path);
+        System.out.println(path + "||||" + tableName);
+        System.out.println("xxxxx" + list.toString() + tableName);
         boolean b = list.contains(tableName);
+        System.out.println(b);
         if (b) {
 
             // 得到当前路径
@@ -46,7 +49,7 @@ public class Insert {
             // System.out.println(list.size());
             if (list1.size() != 2) {
                 System.out.println("ERROR: 语句有错误");
-                Input.get();
+                // Input.get();
             } else {
                 List<String> columnName = getColumnName(nowPath, 1);
                 List<String> type = getColumnName(nowPath, 2);
@@ -121,11 +124,11 @@ public class Insert {
                     writeFile(s);
                     System.out.println("Query OK");
                 }
-                Input.get();
+                // Input.get();
             }
         } else {
             System.out.println("ERROR: 该表不存在");
-            Input.get();
+            // Input.get();
         }
 
     }
