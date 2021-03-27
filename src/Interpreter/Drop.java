@@ -3,6 +3,7 @@ package Interpreter;
 import java.io.File;
 import java.util.List;
 import java.util.Scanner;
+import Interpreter.*;
 
 /**
  * @ Description : 实现drop指令,目前只实现了drop database 数据库名; 和 drop table 表名; @ Author

@@ -1,5 +1,6 @@
 package Interpreter;
 
+import Interpreter.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

@@ -9,12 +9,10 @@ import java.net.Socket;
 public class DBServer {
 
     public static void main(String[] args) {
-        Input input = new Input();
-        input.get("CREATE DATABASE markbook;");
         String envPort = System.getenv("javaDB.server.port");
         envPort = (envPort == null || envPort.isBlank()) ? "5432" : envPort;
         // 启动服务
-        // new DBServer(Integer.valueOf(envPort));
+        new DBServer(Integer.valueOf(envPort));
     }
 
     public DBServer(Integer serverPort) {
@@ -47,8 +45,8 @@ public class DBServer {
             // 用户输入命令
             String messageComm = bufferedReader.readLine();
             // 处理命令
-            Input input = new Input();
-            input.get(messageComm);
+            // Input input = new Input();
+            // input.execute(messageComm);
             // 执行输入得到结果进行输出
             String outMsg = "";
             bufferedWriter.write(outMsg + "\n");

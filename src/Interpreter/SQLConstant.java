@@ -1,12 +1,14 @@
 package Interpreter;
 
+import Interpreter.*;
+
 /**
  * @ Description : 与数据库相关的常量 @ Author : 马驰 @ CreateDate : 2019/12/27 10:27
  */
 public class SQLConstant {
 
     // 数据库的根路径
-    private static final String path = "E:\\MyDatabase";
+    private static final String path = "F:\\MyDatabase";
 
     // 数据库的当前路径
     private static String nowPath = path;
