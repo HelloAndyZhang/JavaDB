@@ -16,9 +16,9 @@ public class DBtest {
             + "INSERT INTO marks VALUES ('Clive', 20, false);\n" + "SELECT * FROM marks;\n" + "SELECT * FROM marks;\n"
             + "DELETE FROM marks WHERE mark < 40;\n" + "SELECT * FROM marks;\n";
     public static void main(String[] args) {
-        String[] commandLine = tests.split("\\n");
-        for (int i = 0; i < commandLine.length; i++) {
+        String[] commandLine = tests2.split("\\n");
 
+        for (int i = 0; i < commandLine.length; i++) {
             SqlRun sqlRun = new SqlRun();
             sqlRun.Run(commandLine[i]);
 
