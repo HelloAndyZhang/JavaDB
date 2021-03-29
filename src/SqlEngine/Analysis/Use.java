@@ -12,12 +12,10 @@ import java.util.List;
 public class Use {
     public static IOCore ioCore;
 
-    public static  ArrayList<String>  use(List<SqlSegment> result, IOCore core ) {
+    public static ArrayList<String> use(List<SqlSegment> result, IOCore core) {
         ioCore = core;
-        String sqlSubType = result.get(0).getStart();// sql
         String dbName = result.get(0).getBody();// 表名字
         ioCore.useDB(dbName);
-
         return ioCore.output;
     }
 }

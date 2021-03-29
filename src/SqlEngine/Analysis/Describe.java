@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @ Description : 实现describe命令 @ Author : 马驰 @ CreateDate : 2019/12/31 17:24
+ * @ Description : 实现describe命令
  */
 public class Describe {
 
