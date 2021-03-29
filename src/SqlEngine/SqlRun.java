@@ -4,6 +4,7 @@ import SqlEngine.Analysis.*;
 import SqlEngine.IO.IOCore;
 import SqlEngine.Parser.*;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -27,7 +28,7 @@ public class SqlRun {
 
     }
 
-    public List<String> Run(String sql) {
+    public List<String> Run(String sql) throws ParseException, IOException {
         // 数据格式化
         SqlParserUtil sqlParser = new SqlParserUtil();
         List<SqlSegment> result = sqlParser.getParsedSqlList(sql);// 保存解析结果
@@ -37,34 +38,32 @@ public class SqlRun {
         System.out.println(sqlType);
 
         switch (sqlType) {
-        case create:
-            Create.create(result, ioCore);
-            break;
-        case show:
-            Show.show(result, ioCore);
-            break;
-        case use:
-            Use.use(result, ioCore);
-            break;
-        case describe:
-            Describe.describeSql(sql);
-            break;
-        case insert:
-            Insert.insert(result, ioCore);
-            break;
-        case select:
-            Select.select(result, ioCore);
-            break;
-        case drop:
-            Drop.dropSql(sql);
-            break;
-        default:
-            System.out.println("输入的命令无法识别,可以输入help查看目前支持的sql语句");
-            break;
+            case create:
+                Create.create(result, ioCore);
+                break;
+            case show:
+                Show.show(result, ioCore);
+                break;
+            case use:
+                Use.use(result, ioCore);
+                break;
+            case describe:
+                Describe.describeSql(sql);
+                break;
+            case insert:
+                Insert.insert(result, ioCore);
+                break;
+            case select:
+                Select.select(result, ioCore);
+                break;
+            case drop:
+                Drop.dropSql(sql);
+                break;
+            default:
+                System.out.println("输入的命令无法识别,可以输入help查看目前支持的sql语句");
+                break;
         }
         return ioCore.output;
-
-
     }
 
 }

@@ -29,7 +29,6 @@ public class Show {
 
         }
         System.out.println(dbResult.toString());
-
     }
 
 }

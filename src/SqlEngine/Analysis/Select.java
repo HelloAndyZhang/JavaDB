@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import SqlEngine.IO.IOCore;
+import SqlEngine.Parser.ParseException;
 import SqlEngine.Parser.SqlSegment;
 
 /**
@@ -18,16 +19,12 @@ public class Select {
      * @Description : 实现select查询的主函数,目前只实现了select * from 表名;
      * @return : void
      */
-    public static void select(List<SqlSegment> result, IOCore core) {
+    public static void select(List<SqlSegment> result, IOCore core) throws ParseException,IOException {
         ioCore = core;
         String tbName = result.get(1).getBody();// 表名字
         String[] attr = result.get(2).getBody().split(", ");
         List<String> arrList = Arrays.asList(attr);
         ArrayList<String> attributes = new ArrayList(arrList);
-        try {
-            ioCore.select(tbName, attributes, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ioCore.select(tbName, attributes, null);
     }
 }

@@ -1,6 +1,7 @@
 package SqlEngine.Analysis;
 
 import SqlEngine.IO.IOCore;
+import SqlEngine.Parser.ParseException;
 import SqlEngine.Parser.SqlSegment;
 
 import java.util.ArrayList;
@@ -12,10 +13,13 @@ import java.util.List;
 public class Use {
     public static IOCore ioCore;
 
-    public static ArrayList<String> use(List<SqlSegment> result, IOCore core) {
+    public static void use(List<SqlSegment> result, IOCore core) {
         ioCore = core;
         String dbName = result.get(0).getBody();// 表名字
-        ioCore.useDB(dbName);
-        return ioCore.output;
+        try {
+            ioCore.useDB(dbName);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }

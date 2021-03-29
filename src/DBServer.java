@@ -1,4 +1,6 @@
 import SqlEngine.*;
+import SqlEngine.Parser.ParseException;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -11,14 +13,14 @@ public class DBServer {
 
     final static char EOT = 4;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         String envPort = System.getenv("javaDB.server.port");
         envPort = (envPort == null || envPort.isBlank()) ? "5432" : envPort;
         // 启动服务
         new DBServer(Integer.valueOf(envPort));
     }
 
-    public DBServer(Integer serverPort) {
+    public DBServer(Integer serverPort) throws ParseException {
         System.out.println("DB startup...");
         ServerSocket serverSocket = null;
         try {
@@ -40,7 +42,7 @@ public class DBServer {
         }
     }
 
-    private void acceptClientMessage(ServerSocket serverSocket) throws IOException {
+    private void acceptClientMessage(ServerSocket serverSocket) throws ParseException,IOException {
         Socket socket = serverSocket.accept();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));

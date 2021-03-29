@@ -1,5 +1,7 @@
 package SqlEngine.IO;
 
+import SqlEngine.Parser.ParseException;
+
 import java.io.*;
 import java.util.ArrayList;
 
@@ -14,55 +16,54 @@ public class IOCore {
         output = null;
     }
 
-    public void useDB(String dbName) {
+    public void useDB(String dbName) throws ParseException {
         currDB = new File(dbName);
         if (!currDB.exists())
-            throw new Error("Database '" + dbName + "' does not exist");
+            throw new ParseException("Database '" + dbName + "' does not exist");
         output = defaultOutput();
     }
 
-    public void createDB(String dbName) {
+    public void createDB(String dbName) throws ParseException {
         File db = new File(dbName);
         if (db.exists())
-            throw new Error("Database '" + dbName + "' already exists");
+            throw new ParseException("Database '" + dbName + "' already exists");
         if (!db.mkdir())
-            throw new Error("Couldn't create Database");
+            throw new ParseException("Couldn't create Database");
         output = defaultOutput();
     }
 
-    public void createTB(String tbName, ArrayList<String> attributes) throws IOException {
+    public void createTB(String tbName, ArrayList<String> attributes) throws ParseException, IOException {
         File tbFile = getFileOfTable(tbName, false);
         if (!tbFile.createNewFile())
-            throw new Error("Couldn't create table");
+            throw new ParseException("Couldn't create table");
         Table tb = new Table(attributes);
         writeTableToFile(tb, tbFile);
         output = defaultOutput();
     }
 
-    public void dropDB(String dbName) {
+    public void dropDB(String dbName) throws ParseException {
         File db = new File(dbName);
-        if (!db.exists())
-            throw new Error("Database doesn't exist");
+        if (!db.exists()) throw new ParseException("Database doesn't exist");
         File[] tables = db.listFiles();
         if (tables == null)
-            throw new Error("CRITICAL: Wrong format of Database");
+            throw new ParseException("CRITICAL: Wrong format of Database");
         for (File table : tables) {
             if (!table.delete())
-                throw new Error("CRITICAL: Wrong format of Tables in Database");
+                throw new ParseException("CRITICAL: Wrong format of Tables in Database");
         }
         if (!db.delete())
-            throw new Error("Deleted Tables in Database but not Database itself");
+            throw new ParseException("Deleted Tables in Database but not Database itself");
         output = defaultOutput();
     }
 
-    public void dropTB(String tbName) {
+    public void dropTB(String tbName) throws ParseException {
         File table = getFileOfTable(tbName, true);
         if (!table.delete())
-            throw new Error("Couldn't delete table");
+            throw new ParseException("Couldn't delete table");
         output = defaultOutput();
     }
 
-    public void insertInto(String tbName, ArrayList<String> values) throws IOException {
+    public void insertInto(String tbName, ArrayList<String> values) throws ParseException, IOException {
         File tableFile = getFileOfTable(tbName, true);
         Table table = readTableFromFile(tableFile);
         table.insert(values);
@@ -70,7 +71,7 @@ public class IOCore {
         output = defaultOutput();
     }
 
-    public void select(String tbName, ArrayList<String> attributes, Row cond) throws IOException {
+    public void select(String tbName, ArrayList<String> attributes, Row cond) throws ParseException, IOException {
         File tableFile = getFileOfTable(tbName, true);
         Table table = readTableFromFile(tableFile);
         if (attributes == null) {
@@ -78,7 +79,7 @@ public class IOCore {
         } else {
             for (String attribute : attributes) {
                 if (!table.attributes.contains(attribute))
-                    throw new Error(attribute + " is not an attribute in the table.");
+                    throw new ParseException(attribute + " is not an attribute in the table.");
             }
         }
 
@@ -106,7 +107,7 @@ public class IOCore {
         return output;
     }
 
-    private Table readTableFromFile(File tableFile) throws IOException {
+    private Table readTableFromFile(File tableFile) throws ParseException, IOException {
         FileInputStream readFromFile = new FileInputStream(tableFile);
         ObjectInputStream readObjIn = new ObjectInputStream(readFromFile);
         try {
@@ -116,7 +117,7 @@ public class IOCore {
             return tb;
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            throw new Error("CRITICAL: Couldn't deserialize Table file.");
+            throw new ParseException("CRITICAL: Couldn't deserialize Table file.");
         }
     }
 
@@ -128,12 +129,12 @@ public class IOCore {
         writer.close();
     }
 
-    private File getFileOfTable(String tableName, boolean checkExists) {
+    private File getFileOfTable(String tableName, boolean checkExists) throws ParseException {
         if (currDB == null)
-            throw new Error("No Database Selected");
+            throw new ParseException("No Database Selected");
         File tableFile = new File(currDB.getName() + File.separator + tableName + extension);
         if (checkExists && !tableFile.exists()) {
-            throw new Error("Table '" + tableName + "' does not exist");
+            throw new ParseException("Table '" + tableName + "' does not exist");
         }
         return tableFile;
     }
