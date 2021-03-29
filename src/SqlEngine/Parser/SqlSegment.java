@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/** */
+
 /**
  * Sql语句片段
  *
@@ -148,5 +148,4 @@ public class SqlSegment {
 
 		return  this.body+this.start+this.end;
 	}
-
 }

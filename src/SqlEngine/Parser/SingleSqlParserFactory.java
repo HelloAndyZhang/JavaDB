@@ -3,7 +3,7 @@ package SqlEngine.Parser;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/** */
+
 /**
  * 单句Sql解析器制造工厂
  *
@@ -20,14 +20,19 @@ public class SingleSqlParserFactory {
 			return new UpdateSqlParser(sql);
 		} else if (contains(sql, "(insert into)(.+)(values)(.+)")) {
 			return new InsertSqlParser(sql);
+		}else if( contains(sql, "(create table)(.+)") ){
+			return  new CreateTbSqlParser(sql);
+		}else if(contains(sql, "(create database)(.+)") ){
+			return  new CreateDBSqlParser(sql);
+		}else if(contains(sql, "(use)(.+)") ){
+			return  new UseSqlParser(sql);
 		}
-		// sql=sql.replaceAll("ENDSQL", "");
 		else
 			return new InsertSqlParser(sql);
 		// throw new NoSqlParserException(sql.replaceAll("ENDOFSQL", ""));//对异常的抛出
 	}
 
-	/** */
+
 	/**
 	 * 看word是否在lineText中存在，支持正则表达式 @param sql:要解析的sql语句 @param regExp:正则表达式 @return
 	 */

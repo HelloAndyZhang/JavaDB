@@ -2,13 +2,13 @@ package SqlEngine.IO;
 import java.io.*;
 import java.util.ArrayList;
 
-public class Core {
+public class IOCore {
     File currDB;
-    ArrayList<String> output;
+    public ArrayList<String> output;
 
-    final String extension = ".tb";
+    final String extension = ".text";
 
-    public Core(){
+    public IOCore(){
         currDB = null;
         output = null;
     }
@@ -49,6 +49,13 @@ public class Core {
     public void dropTB(String tbName)  {
         File table = getFileOfTable(tbName, true);
         if(!table.delete()) throw new Error("Couldn't delete table");
+        output = defaultOutput();
+    }
+    public void insertInto(String tbName, ArrayList<String> values) throws IOException {
+        File tableFile = getFileOfTable(tbName, true);
+        Table table = readTableFromFile(tableFile);
+        table.insert(values);
+        writeTableToFile(table, tableFile);
         output = defaultOutput();
     }
     public ArrayList<String> getOutput() {

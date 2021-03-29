@@ -1,15 +1,13 @@
 package SqlEngine;
 
 import SqlEngine.Analysis.*;
+import SqlEngine.IO.IOCore;
 import SqlEngine.Parser.*;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
 /**
- * @ Description : 实现一个sql解析器,目前支持create, show, use, quit @ Author : 马驰 @
- * CreateDate : 2019/12/26 17:03
+ * @ Description : 实现一个sql解析器,目前支持create, show, use,
  */
 public class SqlRun {
 
@@ -24,62 +22,53 @@ public class SqlRun {
     private static final String select = "select";
     private static final String drop = "drop";
 
-    public static void Run(String sql) {
+    IOCore ioCore; //Keeps track of where we are in the tokens array, check syntax is correct
+
+    public SqlRun() {
+        ioCore = new IOCore(); //
+
+    }
+    public  void Run(String sql) {
         // 数据格式化
         SqlParserUtil sqlParser = new SqlParserUtil();
-
         List<SqlSegment> result = sqlParser.getParsedSqlList(sql);//保存解析结果
+        if(result.size() == 0) throw new Error("sql error");
+        String sqlType = result.get(0).getStart(); // sql类型
+        System.out.println(sqlType);
 
-        result.forEach(i -> {
-            System.out.println(i.getBody());
-        });
-
-
-//        // str = sql.split(" ");
-//        String start = "";
-//        // 正则表达式的匹配规则
-//        String regex = "^[a-z]+";
-//        Pattern pattern = Pattern.compile(regex);
-//        Matcher matcher = pattern.matcher(sql);
-//        // 获取匹配值
-//        while (matcher.find()) {
-//            start = matcher.group();
-//        }
-//
-//        // 根据第一个单词判断该语句的作用
-//        switch (start) {
-//            case create:
-//                Create.createSql(sql);
-//                break;
-//            case help:
-//                Help.help();
-//                break;
-//            case show:
-//                Show.showSql(sql);
-//                break;
-//            case use:
-//                Use.useSql(sql);
-//                break;
-//            case quit:
-//                Quit.quitSql();
-//                break;
-//            case describe:
-//                Describe.describeSql(sql);
-//                break;
-//            case insert:
-//                Insert.insertSql(sql);
-//                break;
-//            case select:
-//                Select.selectSql(sql);
-//                break;
-//            case drop:
-//                Drop.dropSql(sql);
-//                break;
-//            default:
-//                System.out.println("输入的命令无法识别,可以输入help查看目前支持的sql语句");
-//                // Input.get();
-//                break;
-//        }
+        switch (sqlType) {
+            case create:
+                Create.create(result,ioCore);
+                break;
+            case help:
+                Help.help();
+                break;
+            case show:
+                Show.showSql(sql);
+                break;
+            case use:
+                Use.use(result,ioCore);
+                break;
+            case quit:
+                Quit.quitSql();
+                break;
+            case describe:
+                Describe.describeSql(sql);
+                break;
+            case insert:
+                Insert.insertSql(result,ioCore);
+                break;
+            case select:
+                Select.selectSql(sql);
+                break;
+            case drop:
+                Drop.dropSql(sql);
+                break;
+            default:
+                System.out.println("输入的命令无法识别,可以输入help查看目前支持的sql语句");
+                // Input.get();
+                break;
+        }
 //        // System.out.println(start);
     }
 

@@ -1,134 +1,155 @@
 package SqlEngine.Analysis;
 
+import SqlEngine.IO.IOCore;
+import SqlEngine.Parser.SqlSegment;
+
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @ Description : 实现insert命令 @ Author : 马驰 @ CreateDate : 2019/12/31 22:19
+ * @ Description : 实现insert命令
  */
 public class Insert {
 
     private static String tableName;
+    public static IOCore ioCore;
 
-    public static void insertSql(String sql) {
-        int index = sql.indexOf("(");
-        String name = sql.substring(12, index);
-        tableName = name.trim();
+
+    public static void insertSql(List<SqlSegment> result, IOCore core) {
+        ioCore = core;
+        String sqlSubType = result.get(1).getStart();// sql
+        String tbName = result.get(1).getBody();// 表名字
+        String[] attr = result.get(2).getBody().split(", ");
+        List<String> arrList = Arrays.asList(attr);
+        ArrayList<String> attributes = new ArrayList(arrList );
+        ArrayList<String> dbResult = new ArrayList<>();
+
+        try {
+            ioCore.insertInto(tbName ,attributes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+//        int index = sql.indexOf("(");
+//        String name = sql.substring(12, index);
+//        tableName = name.trim();
         // System.out.println(tableName);
 
-        // 判断是否有该表
-        String path = SQLConstant.getNowPath();
-        List<String> list = Utils.getAllTables(path);
-        System.out.println(path + "||||" + tableName);
-        System.out.println("xxxxx" + list.toString() + tableName);
-        boolean b = list.contains(tableName);
-        System.out.println(b);
-        if (b) {
-
-            // 得到当前路径
-            String nowPath = path + "\\" + tableName + ".txt";
-
-            // 获取insert命令中两个括号中的内容
-            List<String> list1 = new ArrayList<>();
-            Pattern pattern = Pattern.compile("\\(.*?\\)");
-            Matcher matcher = pattern.matcher(sql);
-            while (matcher.find()) {
-                list1.add(matcher.group());
-                // System.out.println(matcher.group());
-            }
-            // System.out.println(list1.size());
-            // for(String s:list1){
-            // System.out.println(s);
-            // }
-
-            // 判断语句是否正确,根据()的数目
-            // System.out.println(list.size());
-            if (list1.size() != 2) {
-                System.out.println("ERROR: 语句有错误");
-                // Input.get();
-            } else {
-                List<String> columnName = getColumnName(nowPath, 1);
-                List<String> type = getColumnName(nowPath, 2);
-                // for(String s: columnName){
-                // System.out.println(s);
-                // }
-
-                String s1 = list1.get(0).substring(1, list1.get(0).length() - 1).trim(); // 第一个括号,字段
-                String s2 = list1.get(1).substring(1, list1.get(1).length() - 1).trim(); // 第二个括号,值
-
-                // 对字符串进行转义
-                // String s11 = transMean(s1);
-                String s22 = transMean(s2);
-
-                String[] key = s1.split(",");
-                String[] value = s22.split(",");
-
-                for (int i = 0; i < key.length; i++) {
-                    key[i] = key[i].trim();
-                }
-
-                for (int i = 0; i < value.length; i++) {
-                    value[i] = value[i].trim();
-                }
-
-                // String s = ""; //最终要存储的字符串对象
-
-                // System.out.println(s1);
-                // System.out.println(s2);
-
-                // for(String k: key){
-                // System.out.println(k);
-                // }
-                //
-                // for(String k: value){
-                // System.out.println(k);
-                // }
-
-                String sep = SQLConstant.getSeparate();
-                int len = columnName.size();
-                String s = ""; // 最终要存储的字符串对象
-                int flag1 = 0;
-                for (int i = 0; i < len; i++) {
-                    String s3 = columnName.get(i);
-                    int flag = 0;
-                    for (int j = 0; j < key.length; j++) {
-                        if (key[j].equals(s3)) {
-                            // System.out.println(type.get(i) + " " + value[j]);
-                            String s4 = check(type.get(i), value[j]);
-                            if (s4 == null) {
-                                flag1 = 1;
-                                break;
-                            } else if (s4 == "machi") {
-                                s += value[j] + sep;
-                                flag = 1;
-                            } else {
-                                s += s4 + sep;
-                                flag = 1;
-                            }
-                        }
-                    }
-                    if (flag == 0) {
-                        s += "null" + sep;
-                    }
-                    if (flag1 == 1) {
-                        break;
-                    }
-                }
-                // System.out.println(s);
-                // System.out.println(flag1);
-                if (flag1 == 0) {
-                    writeFile(s);
-                    System.out.println("Query OK");
-                }
-                // Input.get();
-            }
-        } else {
-            System.out.println("ERROR: 该表不存在");
-            // Input.get();
-        }
+//        // 判断是否有该表
+//        String path = SQLConstant.getNowPath();
+//        List<String> list = Utils.getAllTables(path);
+//        System.out.println(path + "||||" + tableName);
+//        System.out.println("xxxxx" + list.toString() + tableName);
+//        boolean b = list.contains(tableName);
+//        System.out.println(b);
+//        if (b) {
+//
+//            // 得到当前路径
+//            String nowPath = path + "\\" + tableName + ".txt";
+//
+//            // 获取insert命令中两个括号中的内容
+//            List<String> list1 = new ArrayList<>();
+//            Pattern pattern = Pattern.compile("\\(.*?\\)");
+//            Matcher matcher = pattern.matcher(sql);
+//            while (matcher.find()) {
+//                list1.add(matcher.group());
+//                // System.out.println(matcher.group());
+//            }
+//            // System.out.println(list1.size());
+//            // for(String s:list1){
+//            // System.out.println(s);
+//            // }
+//
+//            // 判断语句是否正确,根据()的数目
+//            // System.out.println(list.size());
+//            if (list1.size() != 2) {
+//                System.out.println("ERROR: 语句有错误");
+//                // Input.get();
+//            } else {
+//                List<String> columnName = getColumnName(nowPath, 1);
+//                List<String> type = getColumnName(nowPath, 2);
+//                // for(String s: columnName){
+//                // System.out.println(s);
+//                // }
+//
+//                String s1 = list1.get(0).substring(1, list1.get(0).length() - 1).trim(); // 第一个括号,字段
+//                String s2 = list1.get(1).substring(1, list1.get(1).length() - 1).trim(); // 第二个括号,值
+//
+//                // 对字符串进行转义
+//                // String s11 = transMean(s1);
+//                String s22 = transMean(s2);
+//
+//                String[] key = s1.split(",");
+//                String[] value = s22.split(",");
+//
+//                for (int i = 0; i < key.length; i++) {
+//                    key[i] = key[i].trim();
+//                }
+//
+//                for (int i = 0; i < value.length; i++) {
+//                    value[i] = value[i].trim();
+//                }
+//
+//                // String s = ""; //最终要存储的字符串对象
+//
+//                // System.out.println(s1);
+//                // System.out.println(s2);
+//
+//                // for(String k: key){
+//                // System.out.println(k);
+//                // }
+//                //
+//                // for(String k: value){
+//                // System.out.println(k);
+//                // }
+//
+//                String sep = SQLConstant.getSeparate();
+//                int len = columnName.size();
+//                String s = ""; // 最终要存储的字符串对象
+//                int flag1 = 0;
+//                for (int i = 0; i < len; i++) {
+//                    String s3 = columnName.get(i);
+//                    int flag = 0;
+//                    for (int j = 0; j < key.length; j++) {
+//                        if (key[j].equals(s3)) {
+//                            // System.out.println(type.get(i) + " " + value[j]);
+//                            String s4 = check(type.get(i), value[j]);
+//                            if (s4 == null) {
+//                                flag1 = 1;
+//                                break;
+//                            } else if (s4 == "machi") {
+//                                s += value[j] + sep;
+//                                flag = 1;
+//                            } else {
+//                                s += s4 + sep;
+//                                flag = 1;
+//                            }
+//                        }
+//                    }
+//                    if (flag == 0) {
+//                        s += "null" + sep;
+//                    }
+//                    if (flag1 == 1) {
+//                        break;
+//                    }
+//                }
+//                // System.out.println(s);
+//                // System.out.println(flag1);
+//                if (flag1 == 0) {
+//                    writeFile(s);
+//                    System.out.println("Query OK");
+//                }
+//                // Input.get();
+//            }
+//        } else {
+//            System.out.println("ERROR: 该表不存在");
+//            // Input.get();
+//        }
 
     }
 

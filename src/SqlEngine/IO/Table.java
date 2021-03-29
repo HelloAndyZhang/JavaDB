@@ -19,5 +19,12 @@ public class Table implements Serializable {
         rows = new HashMap<>();
         index = 1;
     }
-
+    public void insert(ArrayList<String> values) {
+        if (values.size()!=attributes.size()-1) throw new Error(attributes.size() + " values required, " + values.size() + " received.");
+        ArrayList<String> valuesIn = new ArrayList<>();
+        valuesIn.add(index.toString());
+        valuesIn.addAll(values);
+        rows.put(index, new Row(attributes,valuesIn));
+        index++;
+    }
 }
