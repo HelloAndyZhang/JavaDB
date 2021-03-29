@@ -14,7 +14,7 @@ import SqlEngine.Parser.SqlSegment;
 public class Show {
     public static IOCore ioCore;
 
-    public static void showSql(List<SqlSegment> result, IOCore core) {
+    public static void show(List<SqlSegment> result, IOCore core) {
 
         ioCore = core;
         String sqlSubType = result.get(1).getStart();// sql

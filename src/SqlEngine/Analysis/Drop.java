@@ -5,8 +5,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * @ Description : 实现drop指令,目前只实现了drop database 数据库名; 和 drop table 表名; @ Author
- * : 马驰 @ CreateDate : 2020/1/13 9:01
+ * @ Description : 实现drop指令,目前只实现了drop database 数据库名; 和 drop table 表名;
  */
 public class Drop {
 
@@ -16,9 +15,6 @@ public class Drop {
 
     /**
      * @Description : 在该方法中对drop命令进行分类,并执行特定的子命令
-     * @author : 马驰
-     * @param : sql 输入的sql语句
-     * @return : void
      */
     public static void dropSql(String sql) {
         // 得到分隔符
@@ -42,9 +38,6 @@ public class Drop {
 
     /**
      * @Description : 对数据库的删除操作
-     * @author : 马驰
-     * @param :
-     * @return :
      */
     private static void dropDatabase() {
         // 获得当前路径
@@ -67,7 +60,6 @@ public class Drop {
             System.out.println("ERROR: 该数据库不存在");
         }
 
-        // Input.get();
     }
 
     /**
@@ -117,9 +109,6 @@ public class Drop {
 
     /**
      * @Description : 删除数据表
-     * @author : 马驰
-     * @param :
-     * @return :
      */
     private static void dropTable() {
         // 获得当前路径

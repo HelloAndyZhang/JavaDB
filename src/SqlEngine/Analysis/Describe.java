@@ -49,9 +49,6 @@ public class Describe {
 
     /**
      * @Description : 从文本文件(表)的前三行读取表的描述信息
-     * @author : 马驰
-     * @param : path 当前表的路径
-     * @return : List<String> 将表的描述信息封装到List中
      */
     private static List<String> getTableDescribe(String path) {
 

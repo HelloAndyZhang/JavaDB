@@ -1,8 +1,7 @@
 package SqlEngine.Analysis;
 
-
 /**
- * @ Description : 与数据库相关的常量 @ Author : 马驰 @ CreateDate : 2019/12/27 10:27
+ * @ Description : 与数据库相关的常量
  */
 public class SQLConstant {
 
@@ -21,9 +20,6 @@ public class SQLConstant {
 
     /**
      * @Description ： 返回当前路径
-     * @author : 马驰
-     * @param : 无
-     * @return : 无
      */
     public static String getNowPath() {
         return nowPath;
@@ -31,9 +27,6 @@ public class SQLConstant {
 
     /**
      * @Description ： 设置当前路径
-     * @author : 马驰
-     * @param : name 数据库名
-     * @return : 无
      */
     public static void setNowPath(String name) {
         nowPath = nowPath + "\\" + name;

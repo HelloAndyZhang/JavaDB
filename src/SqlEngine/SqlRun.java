@@ -41,7 +41,7 @@ public class SqlRun {
             Create.create(result, ioCore);
             break;
         case show:
-            Show.showSql(result, ioCore);
+            Show.show(result, ioCore);
             break;
         case use:
             Use.use(result, ioCore);
@@ -60,10 +60,8 @@ public class SqlRun {
             break;
         default:
             System.out.println("输入的命令无法识别,可以输入help查看目前支持的sql语句");
-            // Input.get();
             break;
         }
-        // // System.out.println(start);
     }
 
 }
