@@ -50,7 +50,7 @@ public class SqlRun {
             Describe.describeSql(sql);
             break;
         case insert:
-            Insert.insertSql(result, ioCore);
+            Insert.insert(result, ioCore);
             break;
         case select:
             Select.select(result, ioCore);

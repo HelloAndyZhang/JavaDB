@@ -17,7 +17,7 @@ public class Insert {
 
     public static IOCore ioCore;
 
-    public static void insertSql(List<SqlSegment> result, IOCore core) {
+    public static void insert(List<SqlSegment> result, IOCore core) {
         ioCore = core;
         String tbName = result.get(1).getBody();// 表名字
         String[] attr = result.get(2).getBody().split(", ");
