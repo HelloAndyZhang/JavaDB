@@ -27,7 +27,7 @@ public class SqlRun {
 
     }
 
-    public void Run(String sql) {
+    public List<String> Run(String sql) {
         // 数据格式化
         SqlParserUtil sqlParser = new SqlParserUtil();
         List<SqlSegment> result = sqlParser.getParsedSqlList(sql);// 保存解析结果
@@ -62,6 +62,9 @@ public class SqlRun {
             System.out.println("输入的命令无法识别,可以输入help查看目前支持的sql语句");
             break;
         }
+        return ioCore.output;
+
+
     }
 
 }
