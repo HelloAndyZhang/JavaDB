@@ -19,11 +19,10 @@ public class Create {
     /**
      * 创建数据表
      */
-    public static void create(List<SqlSegment> result, IOCore core) throws ParseException  {
+    public static void create(List<SqlSegment> result, IOCore core) throws ParseException, IOException {
         ioCore = core;
         String sqlSubType = result.get(1).getStart();// sql
         String sqlName = result.get(1).getBody();// 表名字
-        ArrayList<String> dbResult = new ArrayList<>();
         if (sqlSubType.contains("table")) {
             String[] attr = result.get(2).getBody().split(", ");
             List<String> arrList = Arrays.asList(attr);
@@ -31,28 +30,21 @@ public class Create {
             createTable(sqlName, attributes);
         }
         if (sqlSubType.contains("database")) {
-             createDB(sqlName);
+            createDB(sqlName);
         }
-        System.out.println(dbResult.toString());
     }
 
     /**
      * 创建数据表
      */
-    private static void createDB(String dbName)throws ParseException {
+    private static void createDB(String dbName) throws ParseException {
         ioCore.createDB(dbName);
     }
 
     /**
      * @Description ：创建表格的方法,使用txt文件存储表
      */
-    private static ArrayList<String> createTable(String tbName, ArrayList<String> attributes) throws ParseException {
-
-        try {
-            ioCore.createTB(tbName, attributes);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return ioCore.output;
+    private static void createTable(String tbName, ArrayList<String> attributes) throws ParseException, IOException {
+        ioCore.createTB(tbName, attributes);
     }
 }

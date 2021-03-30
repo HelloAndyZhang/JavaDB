@@ -14,7 +14,6 @@ public class SqlRun {
 
     // 下面是目前支持的sql语句类型
     private static final String create = "create";
-    private static final String show = "show";
     private static final String use = "use";
     private static final String describe = "describe";
     private static final String insert = "insert";
@@ -25,7 +24,6 @@ public class SqlRun {
 
     public SqlRun() {
         ioCore = new IOCore();
-
     }
 
     public List<String> Run(String sql) throws ParseException, IOException {
@@ -33,35 +31,28 @@ public class SqlRun {
         SqlParserUtil sqlParser = new SqlParserUtil();
         List<SqlSegment> result = sqlParser.getParsedSqlList(sql);// 保存解析结果
         if (result.size() == 0)
-            throw new Error("sql error");
+            throw new ParseException("sql error");
         String sqlType = result.get(0).getStart(); // sql类型
         System.out.println(sqlType);
-
         switch (sqlType) {
-            case create:
-                Create.create(result, ioCore);
-                break;
-            case show:
-                Show.show(result, ioCore);
-                break;
-            case use:
-                Use.use(result, ioCore);
-                break;
-            case describe:
-                Describe.describeSql(sql);
-                break;
-            case insert:
-                Insert.insert(result, ioCore);
-                break;
-            case select:
-                Select.select(result, ioCore);
-                break;
-            case drop:
-                Drop.dropSql(sql);
-                break;
-            default:
-                System.out.println("输入的命令无法识别,可以输入help查看目前支持的sql语句");
-                break;
+        case create:
+            Create.create(result, ioCore);
+            break;
+        case use:
+            Use.use(result, ioCore);
+            break;
+        case insert:
+            Insert.insert(result, ioCore);
+            break;
+        case select:
+            Select.select(result, ioCore);
+            break;
+        case drop:
+            Drop.drop(result, ioCore);
+            break;
+        default:
+            System.out.println("输入的命令无法识别,可以输入help查看目前支持的sql语句");
+            break;
         }
         return ioCore.output;
     }

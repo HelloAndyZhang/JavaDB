@@ -24,10 +24,6 @@ public class Insert {
         String[] attr = result.get(2).getBody().split(", ");
         List<String> arrList = Arrays.asList(attr);
         ArrayList<String> attributes = new ArrayList(arrList);
-        try {
-            ioCore.insertInto(tbName, attributes);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ioCore.insertInto(tbName, attributes);
     }
 }

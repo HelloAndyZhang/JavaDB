@@ -14,35 +14,35 @@ public class Describe {
 
     public static void describeSql(String sql) {
 
-        // 得到分隔符
-        String sep = SQLConstant.getSeparate();
+        // // 得到分隔符
+        // String sep = SQLConstant.getSeparate();
 
-        // 获得当前路径,到数据库文件夹
-        String path = SQLConstant.getNowPath();
-        String tableName = sql.substring(9, sql.length() - 1);
+        // // 获得当前路径,到数据库文件夹
+        // String path = SQLConstant.getNowPath();
+        // String tableName = sql.substring(9, sql.length() - 1);
 
-        // 当前表的完整路径
-        String nowPath = path + "\\" + tableName + ".txt";
-        List<String> list = getTableDescribe(nowPath);
+        // // 当前表的完整路径
+        // String nowPath = path + "\\" + tableName + ".txt";
+        // List<String> list = getTableDescribe(nowPath);
 
-        // 对获取的list进行处理并打印
-        List<List<String>> lists = new ArrayList<>();
-        String[] s1 = list.get(0).split(sep);
-        String[] s2 = list.get(1).split(sep);
-        String[] s3 = list.get(2).split(sep);
-        for (int i = 0; i < s1.length; i++) {
-            List<String> list1 = new ArrayList<>();
-            list1.add(s1[i]);
-            list1.add(s2[i]);
-            list1.add(s3[i]);
-            lists.add(list1);
-        }
-        List<String> list4 = new ArrayList<>();
-        list4.add("Filed");
-        list4.add("Type");
-        list4.add("Extra");
+        // // 对获取的list进行处理并打印
+        // List<List<String>> lists = new ArrayList<>();
+        // String[] s1 = list.get(0).split(sep);
+        // String[] s2 = list.get(1).split(sep);
+        // String[] s3 = list.get(2).split(sep);
+        // for (int i = 0; i < s1.length; i++) {
+        // List<String> list1 = new ArrayList<>();
+        // list1.add(s1[i]);
+        // list1.add(s2[i]);
+        // list1.add(s3[i]);
+        // lists.add(list1);
+        // }
+        // List<String> list4 = new ArrayList<>();
+        // list4.add("Filed");
+        // list4.add("Type");
+        // list4.add("Extra");
 
-        System.out.println(TableGenerator.generateTable(list4, lists));
+        // System.out.println(TableGenerator.generateTable(list4, lists));
 
         // Input.get();
     }
